@@ -27,26 +27,31 @@ Given /^There is an existing task$/ do
       name: "Existing Task",
       description: "This is a test task"
   )
-  child = Task.new(
-       name: "child task",
-       description: "child task"
-   )
-  child.parent = task
-  child.save
 end
 
-When /^I view the existing task$/ do
-  visit task_path Task.find_by_name "Existing Task"
+Given /^There are the following existing tasks:$/ do |table|
+  tasks = {}
+  table.hashes.each do |hash|
+    tasks[hash["name"]] = Task.create(name: hash["name"], description: hash["description"])
+  end
+  table.hashes.each do |hash|
+    tasks[hash["name"]].parent = tasks[hash["parent"]] ? tasks[hash["parent"]] : nil
+    tasks[hash["name"]].save
+  end
+end
+
+When /^I view the task with name "([^"]*)"$/ do |name|
+  visit task_path Task.find_by_name name
 end
 
 Then /^I should see a link to its children if they exist$/ do
-  page.should have_selector("li")
+  page.should have_selector "li"
 end
 
-When /^I click a sub task$/ do
-  click_link "child task"
+When /^I click its sub task with name "([^"]*)"$/ do |name|
+  click_link name
 end
 
-Then /^I should see that sub task$/ do
-  page.should have_content("child task")
+Then /^I should see the sub task with name "([^"]*)"$/ do |name|
+  page.should have_content name
 end
