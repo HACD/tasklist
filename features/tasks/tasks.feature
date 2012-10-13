@@ -4,7 +4,14 @@ Feature: User saves a task
   So that I can look at it later
 
   Scenario: User creates a new task
-    Given I am on the task creation page
+    Given I am creating a new task
+    When I mark the task as complete
+    And I save the task
+    Then It should record the date and time of completion
+
+  @wip
+  Scenario: User edits an existing task
+    Given I am editing an existing task
     When I mark the task as complete
     And I save the task
     Then It should record the date and time of completion

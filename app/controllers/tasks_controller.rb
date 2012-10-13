@@ -41,10 +41,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    completed = params["task"].delete("completed") == "1"
-    @task = Task.new(params[:task])
-    @task.completed = completed ? Time.now : nil
-
+    convert_completed_boolean_to_datetime
     respond_to do |format|
       if @task.save
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
@@ -83,4 +80,13 @@ class TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def convert_completed_boolean_to_datetime
+    completed = params["task"].delete("completed") == "1"
+    @task = Task.new(params[:task])
+    @task.completed = completed ? Time.now : nil
+  end
+
 end
