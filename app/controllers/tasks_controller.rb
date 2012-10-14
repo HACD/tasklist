@@ -73,6 +73,7 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+
     # update the parent
     if params[:task][:parent_id].present?
       parent = Task.find(params[:task][:parent_id])
@@ -85,7 +86,7 @@ class TasksController < ApplicationController
     params[:task].delete :parent_id
 
     respond_to do |format|
-      if @task.update_attributes(param)
+      if @task.update_attributes(params[:task])
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { head :no_content }
       else
