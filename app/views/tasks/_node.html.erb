@@ -1,0 +1,20 @@
+<!-- show task node -->
+<div class='task'>
+  <span class='name'><%= task.name %></span>
+  <span class='completed'>(<%= task.completed ? task.completed : 'in progress' %>)</span>
+  <span class='links'>
+    <span class='show'><%= link_to 'Show', task %></span>
+    <span class='edit'><%= link_to 'Edit', edit_task_path(task) %></span>
+    <span class='delete'><%= link_to 'Delete', task, confirm: 'Are you sure?', method: :delete %></span>
+  </span>
+  <div class='description'><%= task.description %></div>
+</div>
+
+<!-- include sub tasks -->
+<% if task.has_children? %>
+  <ul>
+  <%  task.children.each do |child| %>
+    <li><%= render partial: "node", locals: {task: child} %></li>
+  <% end %>
+  </ul>
+<% end %>

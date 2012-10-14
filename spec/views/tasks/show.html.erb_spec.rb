@@ -14,4 +14,9 @@ describe "tasks/show" do
     rendered.should match(/Name/)
     rendered.should match(/MyText/)
   end
+
+  it "hides children if task doesnt have a subtree" do
+    render
+    rendered.should_not match("<b>Children:<b>")
+  end
 end
