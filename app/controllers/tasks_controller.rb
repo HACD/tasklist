@@ -3,16 +3,16 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
     @roots = []
+    tasks = Task.all
 
-    @tasks.each do |task|
+    tasks.each do |task|
         @roots << task if task.is_root?
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @tasks }
+      format.json { render json: tasks }
     end
   end
 
