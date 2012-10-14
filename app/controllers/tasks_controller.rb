@@ -73,12 +73,27 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+<<<<<<< HEAD
     @parent = Task.find(params[:task][:parent_id])
     @task.parent = @parent
     #Workaround
     #regen a new hash, the params[:task] contains parent_id attribute which is invalid since the Model Task does not have a parent_id attr, this is more of a schema level data that is being read
     param = { 'name' => params[:task][:name], 'description' => params[:task][:description], 'completed' => params[:task][:completed] }
     
+=======
+
+    # update the parent
+    if params[:task][:parent_id].present?
+      parent = Task.find(params[:task][:parent_id])
+      @task.parent = parent
+    else
+      @task.parent = nil
+    end
+
+    # remove the parent from the parameters, so that we can persist this change
+    params[:task].delete :parent_id
+
+>>>>>>> 2864528174da0a796dfb4cbf78a8ffb87d2193fc
     respond_to do |format|
       if @task.update_attributes(param)
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
