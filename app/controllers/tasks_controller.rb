@@ -53,8 +53,10 @@ class TasksController < ApplicationController
   def create
     boolean_to_datetime
 
-    parent = Task.find(params[:task][:parent_id])
-    @task.parent = parent
+    if params[:task][:parent_id].present?
+      parent = Task.find(params[:task][:parent_id])
+      @task.parent = parent
+    end
 
     respond_to do |format|
       if @task.save
