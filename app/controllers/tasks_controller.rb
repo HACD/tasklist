@@ -3,16 +3,16 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
     @roots = []
+    tasks = Task.all
 
-    @tasks.each do |task|
+    tasks.each do |task|
         @roots << task if task.is_root?
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @tasks }
+      format.json { render json: tasks }
     end
   end
 
@@ -46,7 +46,8 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    convert_completed_boolean_to_datetime
+    boolean_to_datetime
+
     respond_to do |format|
       if @task.save
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
@@ -86,9 +87,33 @@ class TasksController < ApplicationController
     end
   end
 
+  # GET /task/1/done
+  # GET /task/1/done.json
+  def done
+    # fetch the task
+    task = Task.find(params[:id])
+
+    # mark it as done and save
+    task.completed = Time.now
+    task.save
+
+    # mark all sub tasks as done
+    task.descendants.each do | child |
+      if child.completed.nil?
+        child.completed = Time.now
+        child.save
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
-  def convert_completed_boolean_to_datetime
+  def boolean_to_datetime
     completed = params["task"].delete("completed") == "1"
     @task = Task.new(params[:task])
     @task.completed = completed ? Time.now : nil
