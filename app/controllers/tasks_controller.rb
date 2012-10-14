@@ -73,9 +73,15 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
-    puts "task prior to rebuild: " + @task.inspect
-    @task.build_ancestry_from_parent_ids(parent_id = params[:task][:parent_id])
-    puts "task after rebuild: " + @task.inspect
+
+    # update the parent
+    if params[:task][:parent_id].present?
+      parent = Task.find(params[:task][:parent_id])
+      @task.parent = parent
+    end
+
+    # remove the parent from the parameters, so that we can persist this change
+    params[:task].delete :parent_id
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
