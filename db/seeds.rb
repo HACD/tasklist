@@ -1,45 +1,52 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#TaskBreakDown
+#  support users
+#    create model
+#    configure routes
+#    implement login
+#      integrate omniauth middleware
+#    implement sharing
+#      support ability to share subtrees
+#      support ability to view shared subtrees
 
 
-root = Task.create(name: 'root', description: 'desc')
+root = Task.create(name: 'TaskBreakDown', description: 'Finish task break down')
 
-task = Task.new(name: 'task1', description: 'desc')
+user = Task.new(name: 'support users', description: '')
+user.parent = root
+user.save
+
+root = user
+
+task = Task.new(name: 'create model', description: '')
 task.parent = root
 task.save
 
-task = Task.new(name: 'task2', description: 'desc')
+task = Task.new(name: 'configure routes', description: '')
 task.parent = root
 task.save
 
-root = task
-task = Task.new(name: 'task3', description: 'desc')
-task.parent = root
-task.save
-
-task = Task.new(name: 'task4', description: 'desc')
-task.parent = root
-task.save
-
-task = Task.new(name: 'task5', description: 'desc')
-task.parent = root
-task.save
-
-root = task
-task = Task.new(name: 'task6', description: 'desc')
+task = Task.new(name: 'implement login', description: '')
 task.parent = root
 task.save
 
 root = task
-task = Task.new(name: 'task7', description: 'desc')
+
+task = Task.new(name: 'integrate omniauth middleware', description: '')
 task.parent = root
 task.save
 
-task = Task.new(name: 'task8', description: 'desc')
+root = user
+
+task = Task.new(name: 'implement sharing', description: '')
+task.parent = root
+task.save
+
+root = task
+
+task = Task.new(name: 'implement subtree sharing', description: '')
+task.parent = root
+task.save
+
+task = Task.new(name: 'implement shared subtree view', description: '')
 task.parent = root
 task.save
