@@ -14,7 +14,7 @@
   <% if @task.parent.present? %>
   <div class="field">
     <%= f.label :parent %><br />
-    <%= f.label @task.parent.name %>
+    <%= f.select :parent_id, Task.all.collect { |task| [ task.name, task.id ] } %>
   </div>
   <% end %>
   </div>
