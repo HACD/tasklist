@@ -73,12 +73,14 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
-    puts "task prior to rebuild: " + @task.inspect
-    @task.build_ancestry_from_parent_ids(parent_id = params[:task][:parent_id])
-    puts "task after rebuild: " + @task.inspect
-
+    @parent = Task.find(params[:task][:parent_id])
+    @task.parent = @parent
+    #Workaround
+    #regen a new hash, the params[:task] contains parent_id attribute which is invalid since the Model Task does not have a parent_id attr, this is more of a schema level data that is being read
+    param = { 'name' => params[:task][:name], 'description' => params[:task][:description], 'completed' => params[:task][:completed] }
+    
     respond_to do |format|
-      if @task.update_attributes(params[:task])
+      if @task.update_attributes(param)
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { head :no_content }
       else
