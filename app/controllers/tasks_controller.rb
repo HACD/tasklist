@@ -78,6 +78,8 @@ class TasksController < ApplicationController
     if params[:task][:parent_id].present?
       parent = Task.find(params[:task][:parent_id])
       @task.parent = parent
+    else
+      @task.parent = nil
     end
 
     # remove the parent from the parameters, so that we can persist this change
