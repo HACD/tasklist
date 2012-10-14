@@ -13,13 +13,8 @@
 
   <% if @task.parent.present? %>
   <div class="field">
-<<<<<<< HEAD
     <%= f.label :parent %><br />
     <%= f.select :parent_id, Task.all.collect { |task| [ task.name, task.id ] } %>
-=======
-    <%= f.label :parent_id %><br />
-    <%= f.text_field :parent_id %>
->>>>>>> 87a740e6aae86846e266af5f62c3129d15cd56f4
   </div>
   <% end %>
   <div class="field">
