@@ -32,6 +32,11 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
 
+    if params[:id].present?
+      parent = Task.find(params[:id])
+      @task.parent = parent
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @task }
@@ -48,6 +53,11 @@ class TasksController < ApplicationController
   def create
     boolean_to_datetime
 
+    if params[:task][:parent_id].present?
+      parent = Task.find(params[:task][:parent_id])
+      @task.parent = parent
+    end
+
     respond_to do |format|
       if @task.save
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
@@ -63,6 +73,9 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+    puts "task prior to rebuild: " + @task.inspect
+    @task.build_ancestry_from_parent_ids(parent_id = params[:task][:parent_id])
+    puts "task after rebuild: " + @task.inspect
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
@@ -111,11 +124,37 @@ class TasksController < ApplicationController
     end
   end
 
+  # GET /task/1/done
+  # GET /task/1/done.json
+  def undo
+    # fetch the task
+    task = Task.find(params[:id])
+
+    # mark it as done and save
+    task.completed = nil
+    task.save
+
+    # mark all sub tasks as done
+    task.descendants.each do | child |
+      child.completed = nil
+      child.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   def boolean_to_datetime
     completed = params["task"].delete("completed") == "1"
-    @task = Task.new(params[:task])
+    @task = Task.new(
+      name: params[:task][:name],
+      description: params[:task][:description],
+      completed: params[:task][:completed]
+    )
     @task.completed = completed ? Time.now : nil
   end
 

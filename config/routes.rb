@@ -59,4 +59,6 @@ Taskbreakdown::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match 'tasks/:id/done' => 'tasks#done'
+  match 'tasks/:id/undo' => 'tasks#undo'
+  match 'tasks/:id/new' => 'tasks#new'
 end
