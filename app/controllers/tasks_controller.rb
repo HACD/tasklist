@@ -121,6 +121,28 @@ class TasksController < ApplicationController
     end
   end
 
+  # GET /task/1/done
+  # GET /task/1/done.json
+  def undo
+    # fetch the task
+    task = Task.find(params[:id])
+
+    # mark it as done and save
+    task.completed = nil
+    task.save
+
+    # mark all sub tasks as done
+    task.descendants.each do | child |
+      child.completed = nil
+      child.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   def boolean_to_datetime
