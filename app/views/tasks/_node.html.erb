@@ -7,6 +7,7 @@
     <span class='show'><%= link_to 'Show', task %></span>
     <span class='edit'><%= link_to 'Edit', edit_task_path(task) %></span>
     <span class='delete'><%= link_to 'Delete', task, confirm: 'Are you sure?', method: :delete %></span>
+    <span class='new'><%= link_to 'New', "tasks/#{task.id}/new" %></span>
   </span>
   <div class='description'><%= task.description %></div>
 </div>

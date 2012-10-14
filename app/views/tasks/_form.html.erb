@@ -13,11 +13,10 @@
 
   <% if @task.parent.present? %>
   <div class="field">
-    <%= f.label :parent %><br />
-    <%= f.label @task.parent.name %>
+    <%= f.label :parent_id %><br />
+    <%= f.text_field :parent_id %>
   </div>
   <% end %>
-  </div>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
