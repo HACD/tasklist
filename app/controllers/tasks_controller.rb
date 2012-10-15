@@ -112,6 +112,7 @@ class TasksController < ApplicationController
   # GET /task/1/done.json
   def done
     Task.find(params[:id]).mark_as_complete
+
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
