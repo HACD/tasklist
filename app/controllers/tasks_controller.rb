@@ -32,11 +32,6 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
 
-    if params[:id].present?
-      parent = Task.find(params[:id])
-      @task.parent = parent
-    end
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @task }
@@ -51,12 +46,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    boolean_to_datetime
-
-    if params[:task][:parent_id].present?
-      parent = Task.find(params[:task][:parent_id])
-      @task.parent = parent
-    end
+    @task = Task.new(params[:task])
 
     respond_to do |format|
       if @task.save
@@ -74,17 +64,6 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
 
-    # update the parent
-    if params[:task][:parent_id].present?
-      parent = Task.find(params[:task][:parent_id])
-      @task.parent = parent
-    else
-      @task.parent = nil
-    end
-
-    # remove the parent from the parameters, so that we can persist this change
-    params[:task].delete :parent_id
-
     respond_to do |format|
       if @task.update_attributes(params[:task])
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
@@ -99,8 +78,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
+    Task.destroy(params[:id])
 
     respond_to do |format|
       format.html { redirect_to tasks_url }
@@ -123,23 +101,11 @@ class TasksController < ApplicationController
   # GET /task/1/undo.json
   def undo
     Task.find(params[:id]).mark_as_incomplete
+
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
     end
-  end
-
-
-  private
-
-  def boolean_to_datetime
-    completed_at = params["task"].delete("completed_at") == "1"
-    @task = Task.new(
-      name: params[:task][:name],
-      description: params[:task][:description],
-      completed_at: params[:task][:completed_at]
-    )
-    @task.completed_at = completed_at ? Time.now : nil
   end
 
 end
