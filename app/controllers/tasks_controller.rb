@@ -115,13 +115,13 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
 
     # mark it as done and save
-    task.completed = Time.now
+    task.completed_at = Time.now
     task.save
 
     # mark all sub tasks as done
     task.descendants.each do | child |
-      if child.completed.nil?
-        child.completed = Time.now
+      if child.completed_at.nil?
+        child.completed_at = Time.now
         child.save
       end
     end
@@ -139,12 +139,12 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
 
     # mark it as done and save
-    task.completed = nil
+    task.completed_at = nil
     task.save
 
     # mark all sub tasks as done
     task.descendants.each do | child |
-      child.completed = nil
+      child.completed_at = nil
       child.save
     end
 
@@ -157,13 +157,13 @@ class TasksController < ApplicationController
   private
 
   def boolean_to_datetime
-    completed = params["task"].delete("completed") == "1"
+    completed_at = params["task"].delete("completed_at") == "1"
     @task = Task.new(
       name: params[:task][:name],
       description: params[:task][:description],
-      completed: params[:task][:completed]
+      completed_at: params[:task][:completed_at]
     )
-    @task.completed = completed ? Time.now : nil
+    @task.completed_at = completed_at ? Time.now : nil
   end
 
 end
