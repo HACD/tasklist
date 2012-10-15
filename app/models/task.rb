@@ -12,11 +12,12 @@ class Task < ActiveRecord::Base
   end
 
   def mark_as_complete
-    subtree.update_all completed_at: Time.now
+    subtree.where(:completed_at => nil).update_all completed_at: Time.now
   end
 
   def mark_as_incomplete
-    subtree.update_all completed_at: nil
+    self.completed_at = nil
+    self.save
   end
 
 end
