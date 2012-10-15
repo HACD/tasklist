@@ -15,15 +15,15 @@ class Task < ActiveRecord::Base
 
   def mark_as_complete
     if new_record?
-      self.completed_at = Time.now
+      update_attribute :completed_at, Time.now
     else
-      subtree.update_all completed_at: Time.now
+      subtree.where(:completed_at => nil).update_all completed_at: Time.now
     end
   end
 
   def mark_as_incomplete
     if new_record?
-      self.completed_at = nil
+      update_attribute :completed_at, nil
     else
       subtree.update_all completed_at: nil
     end
