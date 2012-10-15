@@ -11,12 +11,10 @@
     </div>
   <% end %>
 
-  <% if @task.parent.present? %>
   <div class="field">
     <%= f.label :parent %><br />
     <%= f.select :parent_id, Task.all.collect { |task| [ task.name, task.id ] }, :include_blank => true %>
   </div>
-  <% end %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>

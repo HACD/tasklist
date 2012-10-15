@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  attr_accessible :completed, :description, :name
+  attr_accessible :completed, :description, :name, :parent_id, :completed
 
   has_ancestry :orphan_strategy => :rootify
 

@@ -60,5 +60,5 @@ Taskbreakdown::Application.routes.draw do
 
   match 'tasks/:id/done' => 'tasks#done'
   match 'tasks/:id/undo' => 'tasks#undo'
-  match 'tasks/:id/new' => 'tasks#new'
+  match 'tasks/:id/new' => 'tasks#new_subtask'
 end
