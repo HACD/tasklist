@@ -111,48 +111,23 @@ class TasksController < ApplicationController
   # GET /task/1/done
   # GET /task/1/done.json
   def done
-    # fetch the task
-    task = Task.find(params[:id])
-
-    # mark it as done and save
-    task.completed_at = Time.now
-    task.save
-
-    # mark all sub tasks as done
-    task.descendants.each do | child |
-      if child.completed_at.nil?
-        child.completed_at = Time.now
-        child.save
-      end
-    end
-
+    Task.find(params[:id]).mark_as_complete
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
     end
   end
 
-  # GET /task/1/done
-  # GET /task/1/done.json
+  # GET /task/1/undo
+  # GET /task/1/undo.json
   def undo
-    # fetch the task
-    task = Task.find(params[:id])
-
-    # mark it as done and save
-    task.completed_at = nil
-    task.save
-
-    # mark all sub tasks as done
-    task.descendants.each do | child |
-      child.completed_at = nil
-      child.save
-    end
-
+    Task.find(params[:id]).mark_as_incomplete
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
     end
   end
+
 
   private
 

@@ -12,11 +12,11 @@ class Task < ActiveRecord::Base
   end
 
   def mark_as_complete
-    self.completed = true
+    subtree.update_all completed_at: Time.now
   end
 
   def mark_as_incomplete
-    self.completed = false
+    subtree.update_all completed_at: nil
   end
 
 end
