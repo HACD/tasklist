@@ -26,17 +26,7 @@ class TasksController < ApplicationController
   # GET /tasks/new.json
   def new
     @task = Task.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @task }
-    end
-  end
-
-  # GET /tasks/1/new_child
-  # GET /tasks/1/new_child.json
-  def new_child
-    @task = Task.new parent_id: params[:id]
+    @task.parent_id = params[:id] if params[:id]
 
     respond_to do |format|
       format.html # new.html.erb
