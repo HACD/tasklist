@@ -9,7 +9,6 @@ Feature: User saves a task
     And I save the task
     Then It should record the date and time of completion
 
-  @wip
   Scenario: User edits an existing task
     Given I am editing an existing task
     When I mark the task as complete

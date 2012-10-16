@@ -19,13 +19,13 @@ When /^I save the task$/ do
 end
 
 Then /^It should record the date and time of completion$/ do
-  Task.last(order: "updated_at").completed.should_not be_nil
+  Task.last(order: "updated_at").completed_at.should_not be_nil
 end
 
 Given /^There is an existing task$/ do
   task = Task.create(
-      name: "Existing Task",
-      description: "This is a test task"
+    name: "Existing Task",
+    description: "This is a test task"
   )
 end
 
