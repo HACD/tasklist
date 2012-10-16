@@ -33,9 +33,9 @@ class TasksController < ApplicationController
     end
   end
 
-  # GET /tasks/1/new
-  # GET /tasks/1/new.json
-  def new_subtask
+  # GET /tasks/1/new_child
+  # GET /tasks/1/new_child.json
+  def new_child
     @task = Task.new parent_id: params[:id]
 
     respond_to do |format|
@@ -92,8 +92,8 @@ class TasksController < ApplicationController
     end
   end
 
-  # GET /task/1/done
-  # GET /task/1/done.json
+  # PUT /task/1/done
+  # PUT /task/1/done.json
   def done
     Task.find(params[:id]).mark_as_complete
 
@@ -103,8 +103,8 @@ class TasksController < ApplicationController
     end
   end
 
-  # GET /task/1/undo
-  # GET /task/1/undo.json
+  # PUT /task/1/undo
+  # PUT /task/1/undo.json
   def undo
     Task.find(params[:id]).mark_as_incomplete
 

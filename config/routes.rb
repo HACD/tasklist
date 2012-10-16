@@ -1,5 +1,14 @@
 Taskbreakdown::Application.routes.draw do
-  resources :tasks
+
+  root :to => 'tasks#index'
+
+  resources :tasks do
+    member do
+      put :done
+      put :undo
+      get :new_child
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -48,17 +57,10 @@ Taskbreakdown::Application.routes.draw do
   #     resources :products
   #   end
 
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  match 'tasks/:id/done' => 'tasks#done'
-  match 'tasks/:id/undo' => 'tasks#undo'
-  match 'tasks/:id/new' => 'tasks#new_subtask'
 end

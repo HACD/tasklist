@@ -1,19 +1,21 @@
 <!-- show task node -->
 <div class='task'>
+
   <span class='done'>
-    <% if task.completed_at.present? %>
-      <%= link_to 'Undo', "/tasks/#{task.id}/undo" , confirm: 'Are you sure?', method: :undo %>
+    <% if task.completed? %>
+      <%= link_to 'Undo', undo_task_path(task), confirm: 'Are you sure?', :method => :put %>
     <% else %>
-      <%= link_to 'Done', "/tasks/#{task.id}/done" %>
+      <%= link_to 'Done', done_task_path(task), :method => :put %>
     <% end %>
   </span>
+
   <span class='name'><%= task.name %></span>
   <span class='completed'>(<%= task.completed_at ? task.completed_at : 'in progress' %>)</span>
   <span class='links'>
     <span class='show'><%= link_to 'Show', task %></span>
     <span class='edit'><%= link_to 'Edit', edit_task_path(task) %></span>
     <span class='delete'><%= link_to 'Delete', task, confirm: 'Are you sure?', method: :delete %></span>
-    <span class='new'><%= link_to 'New', "/tasks/#{task.id}/new" %></span>
+    <span class='new'><%= link_to 'New', new_child_task_path(task)  %></span>
   </span>
   <div class='description'><%= task.description %></div>
 </div>
