@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
       auth = Authorisation.find_or_create(auth_hash)
       # Create the session
       session[:user_id] = auth.user.id
-      render :text => "Welcome #{auth.user.name}!"
+      redirect_to tasks_path
     end
   end
 
@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
 
   def anonymous
     session[:user_id] = 'anonymous'
-    render :text => 'Welcome anonymous'
+    redirect_to tasks_path
   end
 
 end
