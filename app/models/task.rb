@@ -3,6 +3,8 @@ class Task < ActiveRecord::Base
 
   has_ancestry :orphan_strategy => :rootify
 
+  belongs_to :user
+
   def completed?
     !completed_at.nil?
   end
