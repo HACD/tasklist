@@ -96,12 +96,24 @@ class TasksController < ApplicationController
   # PUT /task/1/undo
   # PUT /task/1/undo.json
   def undo
-    Task.find(params[:id]).mark_as_incomplete
+    Task.find(params[:id]).completed = false
 
     respond_to do |format|
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
     end
   end
+  
+  # PUT /task/1/reset
+  # PUT /task/1/reset.json
+  def reset
+    Task.find(params[:id]).mark_as_incomplete
 
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+      format.json { head :no_content }
+    end    
+  end
+   
+  
 end

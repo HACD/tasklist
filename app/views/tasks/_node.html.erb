@@ -1,6 +1,8 @@
 <!-- show task node -->
 <div class='task'>
 
+   <span class='reset'> <%= link_to 'Reset', reset_task_path(task), confirm: 'Are you sure?', :method => :put %></span>
+  
   <span class='done'>
     <% if task.completed? %>
       <%= link_to 'Undo', undo_task_path(task), confirm: 'Are you sure?', :method => :put %>
@@ -8,7 +10,7 @@
       <%= link_to 'Done', done_task_path(task), :method => :put %>
     <% end %>
   </span>
-
+  
   <span class='name'><%= task.name %></span>
   <span class='completed'>(<%= task.completed_at ? task.completed_at : 'in progress' %>)</span>
   <span class='links'>
