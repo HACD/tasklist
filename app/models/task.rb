@@ -8,9 +8,11 @@ class Task < ActiveRecord::Base
   end
 
   def completed=(completed)
-    # "1" is what is given in the params for a checkbox
-    # FIXME: The model shouldn't know this!
-    completed == "1" ? mark_as_complete : mark_as_incomplete
+    if completed
+      update_attribute :completed_at, Time.now
+    else
+      update_attribute :completed_at, nil
+    end
   end
 
   def mark_as_complete

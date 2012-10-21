@@ -6,6 +6,7 @@ Taskbreakdown::Application.routes.draw do
     member do
       put :done
       put :undo
+      put :reset
       get :new_child, :action => "new"
     end
   end
