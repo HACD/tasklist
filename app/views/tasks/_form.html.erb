@@ -11,10 +11,12 @@
     </div>
   <% end %>
 
+  <% if @parent_selector == true %>
   <div class="field">
     <%= f.label :parent %><br />
     <%= f.select :parent_id, Task.all.collect { |task| [ task.name, task.id ] }, :include_blank => true %>
   </div>
+  <% end %>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -24,8 +26,8 @@
     <%= f.text_area :description %>
   </div>
   <div class="field">
-    <%= f.label :completed %><br />
-    <%= f.check_box :completed? %>
+    <%= f.label :completed_at %><br />
+    <%= f.check_box :completed_at? %>
   </div>
   <div class="actions">
     <%= f.submit :Save %>

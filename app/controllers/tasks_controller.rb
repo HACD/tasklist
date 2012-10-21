@@ -26,7 +26,10 @@ class TasksController < ApplicationController
   # GET /tasks/new.json
   def new
     @task = Task.new
-    @task.parent_id = params[:id] if params[:id]
+    
+    params[:id] ? @parent_selector = false : @parent_selector = true
+    
+    @task.parent_id = params[:id] if params[:id]    
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +40,7 @@ class TasksController < ApplicationController
   # GET /tasks/1/edit
   def edit
     @task = Task.find(params[:id])
+    @parent_selector = true
   end
 
   # POST /tasks
@@ -62,7 +66,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.html { redirect_to tasks_url }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
