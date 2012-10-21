@@ -1,6 +1,9 @@
 class Task < ActiveRecord::Base
   attr_accessible :completed_at, :description, :name, :parent_id
 
+  validates :name, :presence => true
+  validates :description, :presence => true
+
   has_ancestry :orphan_strategy => :rootify
 
   def completed?
