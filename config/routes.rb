@@ -11,11 +11,11 @@ Taskbreakdown::Application.routes.draw do
     end
   end
 
-  #get "sessions/new"
-  #get "sessions/create"
-  #get "sessions/failure"
-
-  get   '/login', :to => 'sessions#new', :as => :login
+  #get 'sessions/new'
+  #get 'sessions/create'
+  #get 'sessions/failure'
+  get  '/login', :to => 'sessions#new', :as => :login
+  get '/logout', :to => 'sessions#destroy'
   match '/auth/:provider/callback', :to => 'sessions#create'
   match '/auth/failure', :to => 'sessions#failure'
 
