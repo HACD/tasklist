@@ -47,6 +47,7 @@ class TasksController < ApplicationController
   # POST /tasks.json
   def create
     @task = Task.new params[:task]
+    @parent_selector = true
 
     respond_to do |format|
       if @task.save
@@ -63,6 +64,7 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
+    @parent_selector = true
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
