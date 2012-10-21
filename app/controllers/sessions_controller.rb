@@ -1,6 +1,8 @@
 
 class SessionsController < ApplicationController
 
+  skip_before_filter :check_sign_in
+
   def create
     auth_hash = request.env['omniauth.auth']
     if session[:user_id]
@@ -27,4 +29,10 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     render :text => "You've logged out!"
   end
+
+  def anonymous
+    session[:user_id] = 'anonymous'
+    render :text => 'Welcome anonymous'
+  end
+
 end
