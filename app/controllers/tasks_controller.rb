@@ -65,6 +65,13 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
 
     respond_to do |format|
+      # convert checkbox to time
+      if params[:task][:completed_at] == '1'
+        params[:task][:completed_at] = Time.now
+      else
+        params[:task][:completed_at] = nil
+      end
+
       if @task.update_attributes(params[:task])
         format.html { redirect_to tasks_url }
         format.json { head :no_content }
