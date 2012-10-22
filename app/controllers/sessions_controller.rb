@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       User.find(session[:user_id]).add_provider(auth_hash)
       render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
     else
-      # Log him in or sign him up
+      # Log in or sign up
       auth = Authorisation.find_or_create(auth_hash)
       # Create the session
       session[:user_id] = auth.user.id
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
   end
 
   def anonymous
-    session[:user_id] = 'anonymous'
+    session[:user_id] = 1
     redirect_to tasks_path
   end
 

@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @roots = Task.all.select(&:is_root?)
+    @roots = Task.where(:user_id => session[:user_id]).select(&:is_root?)
 
     respond_to do |format|
       format.html # index.html.erb
