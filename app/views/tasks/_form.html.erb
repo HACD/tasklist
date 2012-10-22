@@ -14,7 +14,7 @@
   <% if @parent_selector == true %>
   <div class="field">
     <%= f.label :parent %><br />
-    <%= f.select :parent_id, Task.all.collect { |task| [ task.name, task.id ] }, :include_blank => true %>
+    <%= f.select :parent_id, Task.where('id not in (?)', params[:id] ? params[:id] : Task.count + 1).collect { |task| [ task.name, task.id] }, :include_blank => true %>
   </div>
   <% end %>
   <div class="field">
