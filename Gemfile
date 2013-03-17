@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.8'
+gem 'ancestry'
 
 
 # Bundle edge Rails instead:
@@ -29,7 +30,7 @@ group :test do
   gem 'factory_girl'
 end
 
-group :development do
+group :development, :test do
   gem 'pry'
   gem 'debugger'
 end
