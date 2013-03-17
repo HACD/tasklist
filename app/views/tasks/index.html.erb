@@ -1,9 +1,0 @@
-<h1>Tasks</h1>
-
-<ul>
-<% @roots.each do |task| %>
-  <li><%= render partial: "node", locals: { task: task } %></li>
-<% end %>
-</ul>
-
-<%= link_to 'New Task', new_task_path %>
