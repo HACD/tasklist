@@ -19,9 +19,15 @@
     <%= f.label :description %><br />
     <%= f.text_field :description %>
   </div>
+  <% if @task.id.present? %>
+    <div class="field">
+      <%= f.label :completed_at %><br />
+      <%= f.datetime_select :completed_at %>
+    </div>
+  <% end %>
   <div class="field">
-    <%= f.label :completed_at %><br />
-    <%= f.datetime_select :completed_at %>
+    <%= f.label :parent %> <br />
+    <%= f.select :parent, options_for_select(Task.all.collect{ |task| [task.id, task.name] }), :include_blank => true %>
   </div>
   <div class="actions">
     <%= f.submit %>
