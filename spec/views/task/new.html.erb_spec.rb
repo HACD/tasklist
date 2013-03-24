@@ -5,7 +5,7 @@ describe 'tasks/new.html.erb' do
     
   end
 
-  it "should render a form with a name and description fields" do
+  it "should render a form with a name, description and parent fields" do
     assign(:task, stub_model(Task, :name => 'do stuff'))
     render
 
